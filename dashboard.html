@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Inventory Management Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            background-color: #212529;
+            color: white;
+            min-height: 100vh;
+        }
+        .sidebar .nav-link {
+            color: white;
+        }
+        .sidebar .nav-link:hover {
+            background-color: #495057;
+        }
+        .inventory-card {
+            transition: transform 0.2s;
+        }
+        .inventory-card:hover {
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Inventory Pro</a>
+            <button class="btn btn-danger" onclick="logout()">
+                <i class="bi bi-box-arrow-right"></i> Logout
+            </button>
+        </div>
+    </nav>
+
+    <!-- Dashboard Layout -->
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 sidebar">
+                <div class="d-flex flex-column p-3">
+                    <h4 class="mb-4">Inventory</h4>
+                    <a class="nav-link mb-2" href="#inventory">Inventory</a>
+                    <a class="nav-link mb-2" href="#products">Products</a>
+                    <a class="nav-link mb-2" href="#suppliers">Suppliers</a>
+                    <a class="nav-link mb-2" href="#analytics">Analytics</a>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <main class="col-md-9">
+                <div class="container">
+                    <!-- Inventory Overview -->
+                    <div id="inventory" class="mb-4">
+                        <h3 class="text-primary mb-3">Inventory Overview</h3>
+                        <div class="row g-4">
+                            <div class="col-md-3">
+                                <div class="card inventory-card border-primary">
+                                    <div class="card-body">
+                                        <h5 class="card-title">1,234</h5>
+                                        <p class="card-text">Total Items</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card inventory-card border-success">
+                                    <div class="card-body">
+                                        <h5 class="card-title">321</h5>
+                                        <p class="card-text">In Stock</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card inventory-card border-warning">
+                                    <div class="card-body">
+                                        <h5 class="card-title">45</h5>
+                                        <p class="card-text">Low Stock</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card inventory-card border-danger">
+                                    <div class="card-body">
+                                        <h5 class="card-title">12</h5>
+                                        <p class="card-text">Out of Stock</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Inventory Table -->
+                        <div class="card mt-4">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                Current Inventory
+                                <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addInventoryModal">
+                                    <i class="bi bi-plus-circle"></i> Add Item
+                                </button>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-hover mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Quantity</th>
+                                            <th>Reorder Level</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Steel Rods</td>
+                                            <td>150</td>
+                                            <td>50</td>
+                                            <td><span class="badge bg-success">In Stock</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary me-2"><i class="bi bi-pencil"></i></button>
+                                                <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                                            </td>
+                                        </tr>
+                                        <!-- Add more inventory rows as needed -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product Management -->
+                    <div id="products" class="mb-4">
+                        <h3 class="text-success mb-3">Product Management</h3>
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                Product List
+                                <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#addProductModal">
+                                    <i class="bi bi-plus-circle"></i> New Product
+                                </button>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-hover mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Product ID</th>
+                                            <th>Name</th>
+                                            <th>Category</th>
+                                            <th>Price</th>
+                                            <th>Stock</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>P001</td>
+                                            <td>Steel Rods</td>
+                                            <td>Raw Materials</td>
+                                            <td>$25.00</td>
+                                            <td>150</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary me-2"><i class="bi bi-pencil"></i></button>
+                                                <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                                            </td>
+                                        </tr>
+                                        <!-- Add more product rows as needed -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Supplier Management -->
+                    <div id="suppliers" class="mb-4">
+                        <h3 class="text-warning mb-3">Supplier Management</h3>
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                Supplier List
+                                <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#addSupplierModal">
+                                    <i class="bi bi-plus-circle"></i> New Supplier
+                                </button>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-hover mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Supplier ID</th>
+                                            <th>Name</th>
+                                            <th>Contact</th>
+                                            <th>Email</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>S001</td>
+                                            <td>SteelCo Inc</td>
+                                            <td>John Smith</td>
+                                            <td>john@steelco.com</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary me-2"><i class="bi bi-pencil"></i></button>
+                                                <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                                            </td>
+                                        </tr>
+                                        <!-- Add more supplier rows as needed -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Analytics Section -->
+                    <div id="analytics" class="mb-4">
+                        <h3 class="text-info mb-3">Inventory Analytics</h3>
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <div class="card h-100 border-info">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Top 5 Products</h5>
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                Steel Rods
+                                                <span class="badge bg-info">150 units</span>
+                                            </li>
+                                            <!-- Add more analytics items as needed -->
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card h-100 border-info">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Recent Activity</h5>
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item">• 50 units of Steel Rods added by Admin (2 hours ago)</li>
+                                            <!-- Add more activity items as needed -->
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Add Inventory Modal -->
+    <div class="modal fade" id="addInventoryModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Inventory Item</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="inventoryProduct" class="form-label">Product Name</label>
+                            <input type="text" class="form-control" id="inventoryProduct" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="inventoryQuantity" class="form-label">Quantity</label>
+                            <input type="number" class="form-control" id="inventoryQuantity" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="reorderLevel" class="form-label">Reorder Level</label>
+                            <input type="number" class="form-control" id="reorderLevel" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Add Item</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Product Modal -->
+    <div class="modal fade" id="addProductModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Product</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="productName" class="form-label">Product Name</label>
+                            <input type="text" class="form-control" id="productName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="productCategory" class="form-label">Category</label>
+                            <select class="form-select" id="productCategory" required>
+                                <option value="">Select category</option>
+                                <option value="raw_material">Raw Material</option>
+                                <option value="finished_product">Finished Product</option>
+                                <option value="component">Component</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="productPrice" class="form-label">Price</label>
+                            <input type="number" class="form-control" id="productPrice" step="0.01" required>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">Create Product</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Supplier Modal -->
+    <div class="modal fade" id="addSupplierModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Supplier</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="supplierName" class="form-label">Supplier Name</label>
+                            <input type="text" class="form-control" id="supplierName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="supplierContact" class="form-label">Contact Person</label>
+                            <input type="text" class="form-control" id="supplierContact" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="supplierEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="supplierEmail" required>
+                        </div>
+                        <button type="submit" class="btn btn-warning w-100">Add Supplier</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+
+        // Auth controller
+
+        const token = localStorage.getItem("access_token");
+
+        if(!token){
+            window.location.href = 'index.html'
+        }
+
+        function logout() {
+            if (confirm("Are you sure you want to logout?")) {
+                localStorage.clear()
+                window.location.href = "index.html";
+            }
+        }
+
+        
+        // Add form submission handlers here
+        // Example for inventory form:
+        document.querySelector('#addInventoryModal form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Add logic to save inventory data
+            alert("Inventory item added successfully!");
+            this.reset();
+            bootstrap.Modal.getInstance(document.getElementById('addInventoryModal')).hide();
+        });
+
+        // Similar handlers for product and supplier forms
+    </script>
+</body>
+</html>
