@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,20 +13,37 @@
             color: white;
             min-height: 100vh;
         }
+
         .sidebar .nav-link {
             color: white;
         }
+
         .sidebar .nav-link:hover {
             background-color: #495057;
         }
+
         .inventory-card {
             transition: transform 0.2s;
         }
+
         .inventory-card:hover {
             transform: scale(1.02);
         }
+
+        .table-container {
+            max-height: 400px;
+            overflow-y: auto;
+            overflow-x: auto;
+            width: 100%;
+        }
+
+        .table-container table td,
+        .table-container table th {
+            white-space: nowrap;
+        }
     </style>
 </head>
+
 <body>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -61,7 +79,7 @@
                             <div class="col-md-3">
                                 <div class="card inventory-card border-primary">
                                     <div class="card-body">
-                                        <h5 class="card-title">1,234</h5>
+                                        <h5 class="card-title" id="totalItems">0</h5>
                                         <p class="card-text">Total Items</p>
                                     </div>
                                 </div>
@@ -96,7 +114,8 @@
                         <div class="card mt-4">
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 Current Inventory
-                                <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addInventoryModal">
+                                <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#addInventoryModal">
                                     <i class="bi bi-plus-circle"></i> Add Item
                                 </button>
                             </div>
@@ -118,8 +137,10 @@
                                             <td>50</td>
                                             <td><span class="badge bg-success">In Stock</span></td>
                                             <td>
-                                                <button class="btn btn-sm btn-outline-primary me-2"><i class="bi bi-pencil"></i></button>
-                                                <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                                                <button class="btn btn-sm btn-outline-primary me-2"><i
+                                                        class="bi bi-pencil"></i></button>
+                                                <button class="btn btn-sm btn-outline-danger"><i
+                                                        class="bi bi-trash"></i></button>
                                             </td>
                                         </tr>
                                         <!-- Add more inventory rows as needed -->
@@ -135,37 +156,31 @@
                         <div class="card">
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 Product List
-                                <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#addProductModal">
+                                <button class="btn btn-sm btn-success" data-bs-toggle="modal"
+                                    data-bs-target="#addProductModal">
                                     <i class="bi bi-plus-circle"></i> New Product
                                 </button>
                             </div>
                             <div class="table-responsive">
-                                <table class="table table-hover mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th>Product ID</th>
-                                            <th>Name</th>
-                                            <th>Category</th>
-                                            <th>Price</th>
-                                            <th>Stock</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>P001</td>
-                                            <td>Steel Rods</td>
-                                            <td>Raw Materials</td>
-                                            <td>$25.00</td>
-                                            <td>150</td>
-                                            <td>
-                                                <button class="btn btn-sm btn-outline-primary me-2"><i class="bi bi-pencil"></i></button>
-                                                <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
-                                            </td>
-                                        </tr>
-                                        <!-- Add more product rows as needed -->
-                                    </tbody>
-                                </table>
+                                <div class="table-container">
+                                    <table class="table table-hover mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Product ID</th>
+                                                <th>Name</th>
+                                                <th>Category</th>
+                                                <th>SKU</th>
+                                                <th>Buying Price</th>
+                                                <th>Selling Price</th>
+                                                <th>Stock</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="productManagement">
+                                        </tbody>
+                                    </table>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -176,7 +191,8 @@
                         <div class="card">
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 Supplier List
-                                <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#addSupplierModal">
+                                <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                                    data-bs-target="#addSupplierModal">
                                     <i class="bi bi-plus-circle"></i> New Supplier
                                 </button>
                             </div>
@@ -198,8 +214,10 @@
                                             <td>John Smith</td>
                                             <td>john@steelco.com</td>
                                             <td>
-                                                <button class="btn btn-sm btn-outline-primary me-2"><i class="bi bi-pencil"></i></button>
-                                                <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                                                <button class="btn btn-sm btn-outline-primary me-2"><i
+                                                        class="bi bi-pencil"></i></button>
+                                                <button class="btn btn-sm btn-outline-danger"><i
+                                                        class="bi bi-trash"></i></button>
                                             </td>
                                         </tr>
                                         <!-- Add more supplier rows as needed -->
@@ -218,7 +236,8 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Top 5 Products</h5>
                                         <ul class="list-group list-group-flush">
-                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <li
+                                                class="list-group-item d-flex justify-content-between align-items-center">
                                                 Steel Rods
                                                 <span class="badge bg-info">150 units</span>
                                             </li>
@@ -232,7 +251,8 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Recent Activity</h5>
                                         <ul class="list-group list-group-flush">
-                                            <li class="list-group-item">• 50 units of Steel Rods added by Admin (2 hours ago)</li>
+                                            <li class="list-group-item">• 50 units of Steel Rods added by Admin (2 hours
+                                                ago)</li>
                                             <!-- Add more activity items as needed -->
                                         </ul>
                                     </div>
@@ -273,6 +293,58 @@
             </div>
         </div>
     </div>
+
+    <!-- Edit product Model -->
+
+    <!-- Edit Product Modal -->
+<!-- Edit Product Modal -->
+<div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editProductModalLabel">Edit Product</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="editProductForm">
+          <input type="hidden" id="edit-product-id" />
+
+          <div class="mb-3">
+            <label for="edit-product-name" class="form-label">Product Name</label>
+            <input type="text" class="form-control" id="edit-product-name" required />
+          </div>
+
+          <div class="mb-3">
+            <label for="edit-category" class="form-label">Category</label>
+            <input type="text" class="form-control" id="edit-category" required />
+          </div>
+
+          <div class="mb-3">
+            <label for="edit-sku" class="form-label">SKU</label>
+            <input type="text" class="form-control" id="edit-sku" required />
+          </div>
+
+          <div class="mb-3">
+            <label for="edit-buying-price" class="form-label">Buying Price</label>
+            <input type="number" class="form-control" id="edit-buying-price" step="0.01" required />
+          </div>
+
+          <div class="mb-3">
+            <label for="edit-selling-price" class="form-label">Selling Price</label>
+            <input type="number" class="form-control" id="edit-selling-price" step="0.01" required />
+          </div>
+
+          <div class="mb-3">
+            <label for="edit-stock" class="form-label">Stock</label>
+            <input type="number" class="form-control" id="edit-stock" required />
+          </div>
+
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
     <!-- Add Product Modal -->
     <div class="modal fade" id="addProductModal" tabindex="-1">
@@ -339,15 +411,69 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="functions.js"></script>
     <script>
 
-        // Auth controller
 
-        const token = localStorage.getItem("access_token");
+        window.onload = async function () {
+            try {
+                // const token = localStorage.getItem("token"); // Or wherever you store your JWT
+                const response = await fetch("http://127.0.0.1:8000/api/v1/get_products", {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Bearer ${token}`,
+                        "Content-Type": "application/json"
+                    }
+                });
 
-        if(!token){
+                if (!response.ok) {
+                    throw new Error("Failed to fetch: " + response.status);
+                }
+
+                const data = await response.json();
+                totalItems.textContent = Object.keys(data).length
+                // Controll the products
+                products = ''
+                productManagement.innerHTML = "";
+                for (let i = 0; i < data.length; i++) {
+                    const safeName = data[i].product_name.replace(/"/g, '&quot;').replace(/'/g, "\\'");
+
+                    products = `
+                                        <tr>
+                                            <td>${data[i].id}</td>
+                                            <td>${data[i].product_name}</td>
+                                            <td>${data[i].category}</td>
+                                            <td>${data[i].sku}</td>
+                                            <td>${data[i].buying_price}</td>
+                                            <td>${data[i].selling_price}</td>
+                                            <td>${data[i].quantity}</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary me-2 edit-button" data-id = "${data[i].id}" data-name = '${safeName}'><i class="bi bi-pencil"></i></button>
+                                                <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                                            </td>
+                                        </tr>
+        `
+                    productManagement.innerHTML += products
+                }
+                document.querySelectorAll(".edit-button").forEach(btn => {
+                    btn.addEventListener("click", function () {
+                        const id = this.getAttribute("data-id");
+                        const name = this.getAttribute("data-name");
+                        openEditModal(id, name);
+                    });
+                });
+                console.log(data);
+
+            } catch (error) {
+                console.log(error, "Error occurred");
+            }
+        };
+
+        if (!token) {
             window.location.href = 'index.html'
         }
+
+        // count total item
 
         function logout() {
             if (confirm("Are you sure you want to logout?")) {
@@ -356,10 +482,10 @@
             }
         }
 
-        
+
         // Add form submission handlers here
         // Example for inventory form:
-        document.querySelector('#addInventoryModal form').addEventListener('submit', function(e) {
+        document.querySelector('#addInventoryModal form').addEventListener('submit', function (e) {
             e.preventDefault();
             // Add logic to save inventory data
             alert("Inventory item added successfully!");
@@ -370,4 +496,5 @@
         // Similar handlers for product and supplier forms
     </script>
 </body>
+
 </html>

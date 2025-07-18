@@ -183,11 +183,10 @@
             return;
         }
 
-        // Success - maybe close modal or redirect
+        
         console.log("Registered successfully");
         alert("Registration successful! Please log in.");
-        location.reload(); // or close modal
-
+        location.reload();
     } catch (error) {
         errorDiv.textContent = "An error occurred. Please try again.";
     }
