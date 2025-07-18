@@ -297,54 +297,55 @@
     <!-- Edit product Model -->
 
     <!-- Edit Product Modal -->
-<!-- Edit Product Modal -->
-<div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="editProductModalLabel">Edit Product</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form id="editProductForm">
-          <input type="hidden" id="edit-product-id" />
+    <!-- Edit Product Modal -->
+    <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editProductModalLabel">Edit Product</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editProductForm" enctype="multipart/form-data">
+                        <input type="hidden" id="edit-product-id" />
 
-          <div class="mb-3">
-            <label for="edit-product-name" class="form-label">Product Name</label>
-            <input type="text" class="form-control" id="edit-product-name" required />
-          </div>
+                        <div class="mb-3">
+                            <label for="edit-product-name" class="form-label">Product Name</label>
+                            <input type="text" class="form-control" id="edit-product-name" required />
+                        </div>
 
-          <div class="mb-3">
-            <label for="edit-category" class="form-label">Category</label>
-            <input type="text" class="form-control" id="edit-category" required />
-          </div>
+                        <div class="mb-3">
+                            <label for="edit-category" class="form-label">Category</label>
+                            <input type="text" class="form-control" id="edit-category" required />
+                        </div>
 
-          <div class="mb-3">
-            <label for="edit-sku" class="form-label">SKU</label>
-            <input type="text" class="form-control" id="edit-sku" required />
-          </div>
+                        <div class="mb-3">
+                            <label for="edit-sku" class="form-label">SKU</label>
+                            <input type="text" class="form-control" id="edit-sku" required />
+                        </div>
 
-          <div class="mb-3">
-            <label for="edit-buying-price" class="form-label">Buying Price</label>
-            <input type="number" class="form-control" id="edit-buying-price" step="0.01" required />
-          </div>
+                        <div class="mb-3">
+                            <label for="edit-buying-price" class="form-label">Buying Price</label>
+                            <input type="number" class="form-control" id="edit-buying-price" step="0.01" required />
+                        </div>
 
-          <div class="mb-3">
-            <label for="edit-selling-price" class="form-label">Selling Price</label>
-            <input type="number" class="form-control" id="edit-selling-price" step="0.01" required />
-          </div>
+                        <div class="mb-3">
+                            <label for="edit-selling-price" class="form-label">Selling Price</label>
+                            <input type="number" class="form-control" id="edit-selling-price" step="0.01" required />
+                        </div>
 
-          <div class="mb-3">
-            <label for="edit-stock" class="form-label">Stock</label>
-            <input type="number" class="form-control" id="edit-stock" required />
-          </div>
+                        <div class="mb-3">
+                            <label for="edit-stock" class="form-label">Stock</label>
+                            <input type="number" class="form-control" id="edit-stock" required />
+                        </div>
 
-          <button type="submit" class="btn btn-primary">Save Changes</button>
-        </form>
-      </div>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 
     <!-- Add Product Modal -->
     <div class="modal fade" id="addProductModal" tabindex="-1">
@@ -355,26 +356,80 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
-                        <div class="mb-3">
-                            <label for="productName" class="form-label">Product Name</label>
-                            <input type="text" class="form-control" id="productName" required>
+                    <form id="createProductForm" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="productName" class="form-label">Product Name</label>
+                                <input type="text" class="form-control" id="productName" name="product_name" required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="brand" class="form-label">Brand</label>
+                                <input type="text" class="form-control" id="productBrand" name="brand" required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="sku" class="form-label">SKU</label>
+                                <input type="text" class="form-control" id="sku" name="sku" required>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="productCategory" class="form-label">Category</label>
-                            <select class="form-select" id="productCategory" required>
-                                <option value="">Select category</option>
-                                <option value="raw_material">Raw Material</option>
-                                <option value="finished_product">Finished Product</option>
-                                <option value="component">Component</option>
-                            </select>
+
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="category" class="form-label">Category</label>
+                                <input type="text" class="form-control" id="productCategory" name="unit"
+                                    placeholder="Computer..." required>
+                                                </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="unit" class="form-label">Unit</label>
+                                <input type="text" class="form-control" id="unit" name="unit"
+                                    placeholder="e.g., kg, pcs" required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="lowStockAlert" class="form-label">Low Stock Alert</label>
+                                <input type="number" class="form-control" id="lowStockAlert" name="low_stock_alert"
+                                    min="0" required>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="productPrice" class="form-label">Price</label>
-                            <input type="number" class="form-control" id="productPrice" step="0.01" required>
+
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="buyingPrice" class="form-label">Buying Price</label>
+                                <input type="number" class="form-control" id="buyingPrice" name="buying_price"
+                                    step="0.01" required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="sellingPrice" class="form-label">Selling Price</label>
+                                <input type="number" class="form-control" id="sellingPrice" name="selling_price"
+                                    step="0.01" required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="quantity" class="form-label">Quantity</label>
+                                <input type="number" class="form-control" id="quantity" name="quantity" min="1"
+                                    required>
+                            </div>
                         </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="frontImage" class="form-label">Front Image</label>
+                                <input type="file" class="form-control" id="frontImage" name="front_image"
+                                    accept="image/*" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="backImages" class="form-label">Back Images</label>
+                                <input type="file" class="form-control" id="backImages" name="back_images"
+                                    accept="image/*" multiple required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Product Description</label>
+                            <textarea class="form-control" id="description" name="description" rows="3"
+                                required></textarea>
+                        </div>
+
                         <button type="submit" class="btn btn-success w-100">Create Product</button>
                     </form>
+
                 </div>
             </div>
         </div>
@@ -449,7 +504,8 @@
                                             <td>${data[i].quantity}</td>
                                             <td>
                                                 <button class="btn btn-sm btn-outline-primary me-2 edit-button" data-id = "${data[i].id}" data-name = '${safeName}'><i class="bi bi-pencil"></i></button>
-                                                <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                                                <button class="btn btn-sm btn-outline-danger" onclick="deleteProduct('${data[i].id}')"><i class="bi bi-trash"></i></button>
+                                                <button class="btn btn-sm btn-outline-success"><i class="bi bi-eye"></i></button>
                                             </td>
                                         </tr>
         `

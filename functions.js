@@ -1,8 +1,8 @@
-    const token = localStorage.getItem("access_token");
-    const totalItems = document.getElementById("totalItems");
-    const productManagement = document.getElementById("productManagement");
-    // Function to open modal and fetch product data
-   async function openEditModal(id, name) {
+const token = localStorage.getItem("access_token");
+const totalItems = document.getElementById("totalItems");
+const productManagement = document.getElementById("productManagement");
+// Function to open modal and fetch product data
+async function openEditModal(id, name) {
     try {
         const token = localStorage.getItem("access_token");
         const response = await fetch(`http://127.0.0.1:8000/api/v1/product/${id}`, {
@@ -40,13 +40,13 @@
     }
 }
 
-    // Handle form submission
-    document.getElementById("editProductForm").addEventListener("submit", async function(e) {
-        e.preventDefault();
-        // const uuid = crypto.randomUUID();
-        const product_id = document.getElementById("edit-product-id").value
-        console.log(product_id)
-        const updatedData = {
+// Handle form submission
+document.getElementById("editProductForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+    // const uuid = crypto.randomUUID();
+    const product_id = document.getElementById("edit-product-id").value
+    console.log(product_id)
+    const updatedData = {
         product_name: document.getElementById("edit-product-name").value,
         selling_price: parseFloat(document.getElementById("edit-selling-price").value),
         buying_price: parseFloat(document.getElementById("edit-buying-price").value),
@@ -61,36 +61,106 @@
         // back_image: document.getElementById("edit-back-image").value.split(',').map(url => url.trim())
     };
 
-        try {
-            const response = await fetch(`http://127.0.0.1:8000/api/v1/edit_product/${product_id}`, {
-                method: "PUT",
-                headers: {
-                    "Authorization": `Bearer ${token}`,
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(updatedData)
-            });
+    try {
+        const response = await fetch(`http://127.0.0.1:8000/api/v1/edit_product/${product_id}`, {
+            method: "PUT",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(updatedData)
+        });
 
-            if (!response.ok) {
-                throw new Error("Failed to update product");
-            }
-
-            alert("Product updated successfully!");
-            window.location.reload(); // Refresh the dashboard to show updated data
-        } catch (error) {
-            alert("Error updating product: " + error.message);
-        } finally {
-            bootstrap.Modal.getInstance(document.getElementById('editProductModal')).hide();
+        if (!response.ok) {
+            throw new Error("Failed to update product");
         }
-    });
 
-    if (!token) {
-        window.location.href = 'index.html';
+        alert("Product updated successfully!");
+        window.location.reload(); // Refresh the dashboard to show updated data
+    } catch (error) {
+        alert("Error updating product: " + error.message);
+    } finally {
+        bootstrap.Modal.getInstance(document.getElementById('editProductModal')).hide();
     }
+});
 
-    function logout() {
-        if (confirm("Are you sure you want to logout?")) {
-            localStorage.clear();
-            window.location.href = "index.html";
+if (!token) {
+    window.location.href = 'index.html';
+}
+
+function logout() {
+    if (confirm("Are you sure you want to logout?")) {
+        localStorage.clear();
+        window.location.href = "index.html";
+    }
+}
+
+function deleteProduct(id){
+    const response = fetch(`http://127.0.0.1:8000/api/v1/delete_product/${id}`, {
+        method: "DELETE",
+        headers: {
+            "Authorization":`Bearer ${token}`,
+            "Content-Type": "application/json"
         }
+    })
+    if(response){
+        window.location.reload()
+    } else {
+        console.log("Product not deleted")
     }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.getElementById("createProductForm");
+
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+
+    const formData = new FormData();
+
+    // Add required fields
+    formData.append("product_name", document.getElementById("productName").value);
+    formData.append("selling_price", document.getElementById("sellingPrice").value);
+    formData.append("buying_price", document.getElementById("buyingPrice").value);
+    formData.append("quantity", document.getElementById("quantity").value);
+    formData.append("category", document.getElementById("productCategory").value);
+    formData.append("brand", document.getElementById("productBrand").value);
+    const frontImage = document.getElementById("frontImage").files[0];
+    if (frontImage) {
+      formData.append("front_image", frontImage);
+    }
+    const backImages = document.getElementById("backImages").files;
+    for (let i = 0; i < backImages.length; i++) {
+      formData.append("back_images", backImages[i]);
+    }
+    formData.append("description", document.getElementById("description").value);
+    formData.append("sku", document.getElementById("sku").value);
+    formData.append("unit", document.getElementById("unit").value);
+    formData.append("low_stock_alert", document.getElementById("lowStockAlert").value);
+
+    // Handle image uploads
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/v1/register_product", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${token}`
+        },
+        body: formData
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        alert("Product registered successfully!");
+        window.location.reload()
+        form.reset();
+      } else {
+        alert("Error: " + (result.detail || JSON.stringify(result)));
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Something went wrong.");
+    }
+  });
+});
+
