@@ -45,6 +45,11 @@
 </head>
 
 <body>
+    <!-- dashboard.html -->
+    <div id="loader" class="text-center"
+        style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999; display: none;">
+        <img src="static/loader.gif" alt="Loading..." width="100" />
+    </div>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
@@ -87,7 +92,7 @@
                             <div class="col-md-3">
                                 <div class="card inventory-card border-success">
                                     <div class="card-body">
-                                        <h5 class="card-title">321</h5>
+                                        <h5 class="card-title" id="inStockId">321</h5>
                                         <p class="card-text">In Stock</p>
                                     </div>
                                 </div>
@@ -294,9 +299,6 @@
         </div>
     </div>
 
-    <!-- Edit product Model -->
-
-    <!-- Edit Product Modal -->
     <!-- Edit Product Modal -->
     <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel"
         aria-hidden="true">
@@ -347,6 +349,24 @@
         </div>
     </div>
 
+                            <!-- view product model-->
+<div class="modal fade" id="viewProductModal" tabindex="-1" aria-labelledby="viewProductModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="viewProductModalLabel">Product Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="viewProductModalBody">
+        <!-- Dynamic content will be injected here -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
     <!-- Add Product Modal -->
     <div class="modal fade" id="addProductModal" tabindex="-1">
         <div class="modal-dialog">
@@ -377,7 +397,7 @@
                                 <label for="category" class="form-label">Category</label>
                                 <input type="text" class="form-control" id="productCategory" name="unit"
                                     placeholder="Computer..." required>
-                                                </div>
+                            </div>
                             <div class="col-md-4 mb-3">
                                 <label for="unit" class="form-label">Unit</label>
                                 <input type="text" class="form-control" id="unit" name="unit"
@@ -389,7 +409,6 @@
                                     min="0" required>
                             </div>
                         </div>
-
                         <div class="row">
                             <div class="col-md-4 mb-3">
                                 <label for="buyingPrice" class="form-label">Buying Price</label>
@@ -472,6 +491,7 @@
 
 
         window.onload = async function () {
+            const inStockId = document.getElementById("inStockId")
             try {
                 // const token = localStorage.getItem("token"); // Or wherever you store your JWT
                 const response = await fetch("http://127.0.0.1:8000/api/v1/get_products", {
@@ -490,9 +510,12 @@
                 totalItems.textContent = Object.keys(data).length
                 // Controll the products
                 products = ''
+                totalInStock = 0
                 productManagement.innerHTML = "";
                 for (let i = 0; i < data.length; i++) {
                     const safeName = data[i].product_name.replace(/"/g, '&quot;').replace(/'/g, "\\'");
+
+                    totalInStock += data[i].quantity
 
                     products = `
                                         <tr>
@@ -506,12 +529,13 @@
                                             <td>
                                                 <button class="btn btn-sm btn-outline-primary me-2 edit-button" data-id = "${data[i].id}" data-name = '${safeName}'><i class="bi bi-pencil"></i></button>
                                                 <button class="btn btn-sm btn-outline-danger" onclick="deleteProduct('${data[i].id}')"><i class="bi bi-trash"></i></button>
-                                                <button class="btn btn-sm btn-outline-success"><i class="bi bi-eye"></i></button>
+                                                <button class="btn btn-sm btn-outline-success me-2" onclick="viewProduct('${data[i].id}')" data-bs-toggle="model" data-bs-target="#viewProductModel"><i class="bi bi-eye"></i></button>
                                             </td>
                                         </tr>
         `
                     productManagement.innerHTML += products
                 }
+                inStockId.innerHTML = totalInStock
                 document.querySelectorAll(".edit-button").forEach(btn => {
                     btn.addEventListener("click", function () {
                         const id = this.getAttribute("data-id");

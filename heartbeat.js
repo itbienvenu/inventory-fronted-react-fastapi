@@ -20,4 +20,4 @@ function heartbeat() {
 }
 
 // Start the heartbeat
-setInterval(heartbeat, 10000); // Every 10 seconds
+setInterval(heartbeat, 10); // Every 10 seconds

@@ -2,6 +2,97 @@ const token = localStorage.getItem("access_token");
 const totalItems = document.getElementById("totalItems");
 const productManagement = document.getElementById("productManagement");
 // Function to open modal and fetch product data
+
+
+// functions.js
+document.addEventListener("DOMContentLoaded", function () {
+  async function viewProduct(id) {
+    const viewModal = new bootstrap.Modal(document.getElementById('viewProductModal'));
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/api/v1/product/${id}`, {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json"
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch product details");
+      }
+
+      const data = await response.json();
+      console.log("Fetched product data:", data); // 🔍 Debugging
+
+      const modalBody = document.getElementById("viewProductModalBody");
+      if (!modalBody) {
+        console.error("Modal body element not found!");
+        alert("Failed to load product details.");
+        return;
+      }
+
+      modalBody.innerHTML = "";
+
+      const fields = [
+        { label: "Product Name", value: data?.product_name },
+        { label: "Brand", value: data?.brand },
+        { label: "SKU", value: data?.sku },
+        { label: "Category", value: data?.category },
+        { label: "Buying Price", value: data?.buying_price },
+        { label: "Selling Price", value: data?.selling_price },
+        { label: "Stock", value: data?.quantity },
+        { label: "Low Stock Alert", value: data?.low_stock_alert },
+        { label: "Description", value: data?.description },
+        { label: "Created By", value: data?.created_by },
+        { label: "Created At", value: data?.created_at },
+        { label: "Last Modified", value: data?.last_modified }
+      ];
+
+      fields.forEach(field => {
+        const fieldDiv = document.createElement("div");
+        fieldDiv.className = "mb-3";
+        fieldDiv.innerHTML = `
+          <strong>${field.label}:</strong>
+          <p>${field.value || "N/A"}</p>
+        `;
+        modalBody.appendChild(fieldDiv);
+      });
+
+      // Display images
+      const imageContainer = document.createElement("div");
+      imageContainer.className = "mb-3";
+
+      const frontImage = document.createElement("img");
+      frontImage.src = data?.front_image 
+        ? `http://127.0.0.1:8000/static/images/${data.front_image}` 
+        : "http://127.0.0.1:8000/static/images/default.png";
+      frontImage.alt = "Front Image";
+      frontImage.style.maxWidth = "50%";
+      imageContainer.appendChild(frontImage);
+
+      if (Array.isArray(data?.back_image)) {
+        data.back_image.forEach((imgId, index) => {
+          const backImage = document.createElement("img");
+          backImage.src = `http://127.0.0.1:8000/static/images/${imgId}`;
+          backImage.alt = `Back Image ${index + 1}`;
+          backImage.style.maxWidth = "50%";
+          imageContainer.appendChild(backImage);
+        });
+      }
+
+      modalBody.appendChild(imageContainer);
+
+      viewModal.show();
+    } catch (error) {
+      console.error("Error fetching product:", error);
+      alert("Failed to load product details.");
+    }
+  }
+
+  // Expose viewProduct globally if needed
+  window.viewProduct = viewProduct;
+});
+
 async function openEditModal(id, name) {
     try {
         const token = localStorage.getItem("access_token");
@@ -84,6 +175,9 @@ document.getElementById("editProductForm").addEventListener("submit", async func
     }
 });
 
+
+
+
 if (!token) {
     window.location.href = 'index.html';
 }
@@ -112,7 +206,7 @@ function deleteProduct(id){
 
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("createProductForm");
-
+  
   form.addEventListener("submit", async function (e) {
     e.preventDefault();
 
